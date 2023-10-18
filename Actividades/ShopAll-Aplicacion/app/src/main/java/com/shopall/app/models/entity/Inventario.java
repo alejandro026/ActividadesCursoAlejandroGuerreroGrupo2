@@ -44,6 +44,6 @@ public class Inventario implements Serializable{
     
     @ManyToOne
     @JoinColumn(name = "idProducto", referencedColumnName = "idProducto")
-    private Productos tblProductosByIdProducto;
+    private Producto tblProductosByIdProducto;
 
 }

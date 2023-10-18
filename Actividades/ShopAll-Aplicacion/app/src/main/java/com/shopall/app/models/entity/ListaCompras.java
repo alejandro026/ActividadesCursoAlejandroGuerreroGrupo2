@@ -2,14 +2,7 @@ package com.shopall.app.models.entity;
 
 import java.io.Serializable;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,22 +21,27 @@ public class ListaCompras implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "idLista", nullable = false)
-    private int idLista;
-    
-    
-    @Column(name = "Cantidad", nullable = true)
+
+    @EmbeddedId
+    private ListaComprasId id;
+
+    @MapsId("idCompra")
+    @ManyToOne
+    @JoinColumn(name = "id_compra")
+    private Compra compra;
+
+    @MapsId("idProducto")
+    @ManyToOne
+    @JoinColumn(name = "id_producto")
+    private Producto producto;
+
+    @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
-    
-    @ManyToOne
-    @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
-    private Usuarios tblUsuariosByIdUsuario;
-    
-    @ManyToOne
-    @JoinColumn(name = "idProducto", referencedColumnName = "idProducto")
-    private Productos tblProductosByIdProducto;
+
+    @Column(name = "precio_unitario", nullable = false)
+    private Double precioUnitario;
+
+    @Column(name = "total", nullable = false)
+    private Double total;
 
 }

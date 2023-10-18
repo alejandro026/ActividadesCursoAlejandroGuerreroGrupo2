@@ -36,7 +36,6 @@ public class Categoria implements Serializable{
     @Column(name = "NombreCategoria", nullable = true, length = 45)
     private String nombreCategoria;
     
-    @OneToMany(mappedBy = "tblCategoriasByIdCategoria")
-    private List<Productos> tblProductosByIdCategoria;
+
 
 }

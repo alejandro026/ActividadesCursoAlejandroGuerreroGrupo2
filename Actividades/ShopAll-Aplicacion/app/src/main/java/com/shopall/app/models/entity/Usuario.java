@@ -17,21 +17,19 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "TBL_Usuarios")
-public class Usuarios implements Serializable{
+public class Usuario implements Serializable{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idUsuario", nullable = false)
-    private int idUsuario;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idUsuario;
     
     @Column(name = "Nombre", nullable = true, length = 100)
     private String nombre;
@@ -42,13 +40,13 @@ public class Usuarios implements Serializable{
     @Column(name = "ApPaterno", nullable = true, length = 100)
     private String apPaterno;
     
-    @Column(name = "Correo", nullable = true, length = 45)
+    @Column(name = "Correo", nullable = true, length = 45, unique = true)
     private String correo;
     
     @Column(name = "Direccion", nullable = true, length = 110)
     private String direccion;
     
-    @Column(name = "NoTelefono", nullable = true, length = 45)
+    @Column(name = "NoTelefono", nullable = true, length = 45, unique = true)
     private String noTelefono;
     
     @Column(name = "Tipo_usuario", nullable = true, length = 45)
@@ -59,17 +57,4 @@ public class Usuarios implements Serializable{
     
     @Column(name = "Estatus", nullable = true)
     private Integer estatus;
-    
-    @OneToMany(mappedBy = "tblUsuariosByIdUsuario")
-    private List<ListaCompras> tblListaComprasByIdUsuario;
-    
-    @OneToMany(mappedBy = "tblUsuariosByIdUsuario")
-    private List<Notificacion> tblNotificacionsByIdUsuario;
-    
-    @OneToMany(mappedBy = "tblUsuariosByIdUsuario")
-    private List<Resenas> tblResenasByIdUsuario;
-    
-    @OneToMany(mappedBy = "tblUsuariosByIdComprador")
-    private List<Transacciones> tblTransaccionesByIdUsuario;
-
 }

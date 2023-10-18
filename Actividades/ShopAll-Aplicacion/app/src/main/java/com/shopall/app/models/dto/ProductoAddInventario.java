@@ -1,7 +1,5 @@
-/**
- * 
- */
 package com.shopall.app.models.dto;
+
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -9,25 +7,23 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.validation.annotation.Validated;
 
-/**
- * @author Alejandro Guerrero
- *
- */
 @Setter
 @Getter
 @Validated
-public class ProductoAddDTO {
-	
+public class ProductoAddInventario {
+
+    private Integer idInventario;
+
     @NotNull(message = "Debe ingresar un id de producto valido")
     @Positive(message = "Debe ingresar un id de producto valido")
-	private  int idProducto;
-	
+    private Integer idProducto;
+
     @NotNull(message = "Debe ingresar una cantidad valida")
     @Positive(message = "Debe ingresar una cantidad valida")
-	private int cantidad;
-	
-    private double precioUnitario;
-    
-    private double total;
+    private Integer stock;
+
+    @NotNull(message = "Debe ingresar una vendedor valida")
+    @Positive(message = "Debe ingresar una vendedor valida")
+    private Integer idVendedor;
 
 }

@@ -1,6 +1,7 @@
 package com.shopall.app.services;
 
 import com.shopall.app.exceptions.BusinessException;
+import com.shopall.app.models.dto.UsuarioActualizaDTO;
 import com.shopall.app.models.dto.UsuarioDTO;
 import com.shopall.app.models.dto.UsuarioRegistroDTO;
 import com.shopall.app.models.entity.Response;
@@ -8,10 +9,13 @@ import com.shopall.app.models.entity.Usuario;
 import com.shopall.app.repository.IUsuarioRepository;
 import com.shopall.app.utils.Constantes;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +27,9 @@ public class UsuarioService implements IUsuarioService{
     @Autowired
     private IUsuarioRepository usuarioRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public Response<UsuarioDTO> getUsuarios() {
         List<UsuarioDTO> listaUsuariosDto= new ArrayList<>();
@@ -31,7 +38,7 @@ public class UsuarioService implements IUsuarioService{
 
         for(Usuario user: listaUsuarios){
             //Agregando usuarios a la lista
-            UsuarioDTO usuarioDto = usuarioToUsuarioDTO(user);
+            UsuarioDTO usuarioDto = convertToDto(user);
             listaUsuariosDto.add(usuarioDto);
         }
         response.setList(listaUsuariosDto);
@@ -86,7 +93,7 @@ public class UsuarioService implements IUsuarioService{
         if(usuarioBuscado.isEmpty()){
             throw new BusinessException(HttpStatus.NOT_FOUND, Constantes.USUARIO_NO_EXISTENTE);
         }
-        UsuarioDTO usuarioDTO = usuarioToUsuarioDTO(usuarioBuscado.get());
+        UsuarioDTO usuarioDTO = convertToDto(usuarioBuscado.get());
         response.setSuccess(true);
         response.setMessage(Constantes.USUARIO_OBTENIDO);
         response.setData(usuarioDTO);
@@ -95,28 +102,118 @@ public class UsuarioService implements IUsuarioService{
     }
 
     @Override
-    public Response<UsuarioRegistroDTO> actualizarUsuario(UsuarioRegistroDTO usuarioDTO) {
-        return null;
+    @Transient
+    public Response<UsuarioDTO> actualizarUsuario(UsuarioActualizaDTO usuarioDTO) {
+        Response<UsuarioDTO> response= new Response<>();
+        Optional<Usuario> usuarioOptional = Optional.empty();
+        Usuario usuario=null;
+        UsuarioDTO usuarioRegresaDTO = new UsuarioDTO();
+        try{
+            usuarioOptional= usuarioRepository.findById(usuarioDTO.getIdUsuario());
+        }catch (DataAccessException ex){
+            log.error("Ha ocurrido un error inesperado. Exception {} {}", ex.getMessage() + " " + ex,
+                    ex.getStackTrace());
+        }
+        //Validando de que el usuario exista.
+        if(usuarioOptional.isEmpty()){
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "El  usuario con Id " + usuarioDTO.getIdUsuario() + " no existe");
+        }
+
+        usuario= usuarioOptional.get();
+
+        if(validaCadena(usuarioDTO.getTipoUsuario())){
+            usuario.setTipoUsuario(usuarioDTO.getTipoUsuario());
+        }
+
+        if(usuarioDTO.getEstatus()!=null){
+            usuario.setEstatus(usuarioDTO.getEstatus());
+        }
+
+        if(validaCadena(usuarioDTO.getCorreo())){
+            usuario.setCorreo(usuarioDTO.getCorreo());
+        }
+
+        if(validaCadena(usuarioDTO.getDireccion())){
+            usuario.setDireccion(usuarioDTO.getDireccion());
+        }
+
+        if(validaCadena(usuarioDTO.getPassword())){
+            usuario.setPassword(usuarioDTO.getPassword());
+        }
+
+        if(validaCadena(usuarioDTO.getNombre())){
+            usuario.setNombre(usuarioDTO.getNombre());
+        }
+
+        if(validaCadena(usuarioDTO.getApMaterno())){
+            usuario.setApMaterno(usuarioDTO.getApMaterno());
+        }
+
+        if(validaCadena(usuarioDTO.getApPaterno())){
+            usuario.setApPaterno(usuarioDTO.getApPaterno());
+        }
+
+        if(validaCadena(usuarioDTO.getApMaterno())){
+            usuario.setApMaterno(usuarioDTO.getApMaterno());
+        }
+
+        if(validaCadena(usuarioDTO.getNoTelefono())){
+            usuario.setNoTelefono(usuarioDTO.getNoTelefono());
+        }
+        usuarioRegresaDTO= convertToDto(usuario);
+
+        usuarioRepository.save(usuario);
+
+        response.setMessage(Constantes.USUARIO_ACTUALIZADO);
+        response.setData(usuarioRegresaDTO);
+        response.setCode(HttpStatus.OK.value());
+        response.setSuccess(true);
+
+        return response;
     }
 
     @Override
-    public void eliminarUsuarioPorId(Integer id) {
+    public Response eliminarUsuarioPorId(Integer id) {
+        Response response= new Response();
+        Optional<Usuario> usuario = Optional.empty();
+        try{
+            usuario= usuarioRepository.findById(id);
+        }catch (DataAccessException ex){
+            log.error("Ha ocurrido un error inesperado. Exception {} {}", ex.getMessage() + " " + ex,
+                    ex.getStackTrace());
+        }
+        //Validando de que el usuario exista.
+        if(usuario.isEmpty()){
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "El  usuario con Id " + id + " no existe");
+        }
+
+        //Eliminado el usuario
+        try {
+            usuarioRepository.delete(usuario.get());
+        } catch (DataAccessException ex) {
+            log.error("Ha ocurrido un error inesperado. Exception {} {}", ex.getMessage() + " " + ex,
+                    ex.getStackTrace());
+        }
+
+        response.setCode(HttpStatus.OK.value());
+        response.setSuccess(true);
+        response.setMessage(Constantes.USUARIO_ELIMINADO);
+
+        return response;
 
     }
 
-    //Metodo para convertir usuario a usuarioDTO
-    private UsuarioDTO usuarioToUsuarioDTO(Usuario usuario){
-        UsuarioDTO usuarioDto = new UsuarioDTO();
+    private boolean validaCadena(String cadena){
+        if(cadena!=null ){
+            return !"".equals(cadena);
+        }else {
+            return false;
+        }
+    }
 
-        usuarioDto.setIdUsuario(usuario.getIdUsuario());
-        usuarioDto.setNombre(usuario.getNombre());
-        usuarioDto.setApPaterno(usuario.getApPaterno());
-        usuarioDto.setApMaterno(usuario.getApMaterno());
-        usuarioDto.setCorreo(usuario.getCorreo());
-        usuarioDto.setDireccion(usuario.getDireccion());
-        usuarioDto.setNoTelefono(usuario.getNoTelefono());
-
-        return usuarioDto;
+    //Método para convertir usuario a usuarioDTO
+    private UsuarioDTO convertToDto(Usuario pE) {
+        return modelMapper.map(pE, UsuarioDTO.class);
     }
 
 }

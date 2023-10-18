@@ -31,6 +31,16 @@ public class Constantes {
     public static final String USUARIO_REGISTRADO = "Usuario registrado con exito";
 
     /**
+     * Mensaje que se muestra cuando se elimina un usuario.
+     */
+    public static final String USUARIO_ELIMINADO = "Usuario eliminado con exito";
+
+    /**
+     * Mensaje que se muestra cuando se elimina un usuario.
+     */
+    public static final String USUARIO_ACTUALIZADO = "Usuario actualizado con exito";
+
+    /**
      * Mensaje que se muestra cuando la forma de pago no existe.
      */
     public static final String FORMA_PAGO_NO_EXISTENTE = "La forma de pago no existe.";
@@ -46,6 +56,11 @@ public class Constantes {
     public static final String VENDEDOR_NO_EXISTENTE = "No existe el vendedor";
 
     /**
+     * Mensaje que se muestra cuando no existe el vendedor
+     */
+    public static final String STOCK_ACTUALIZADO = "Se actualizo la cantidad del stock";
+
+    /**
      * Mensaje que se muestra cuando no existe la categoria
      */
     public static final String CATEGORIA_NO_EXISTENTE = "No existe la categoria";
@@ -54,6 +69,12 @@ public class Constantes {
      * Mensaje que se muestra cuando no existe la categoria
      */
     public static final String INVENTARIO_NO_EXISTENTE_VENDEDOR = "No existe un inventario activo para este vendedor";
+
+    /**
+     * Mensaje que se muestra cuando no existe un producto
+     */
+    public static final String PRODUCTO_NO_EXISTE = "No existe el producto en la BD";
+
 
 
     //Constraint de la base de datos.

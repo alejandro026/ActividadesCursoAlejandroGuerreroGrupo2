@@ -46,10 +46,10 @@ public class Resenas implements Serializable{
     
     @ManyToOne
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
-    private Usuarios tblUsuariosByIdUsuario;
+    private Usuario tblUsuariosByIdUsuario;
     
     @ManyToOne
     @JoinColumn(name = "idProducto", referencedColumnName = "idProducto")
-    private Productos tblProductosByIdProducto;
+    private Producto tblProductosByIdProducto;
 
 }

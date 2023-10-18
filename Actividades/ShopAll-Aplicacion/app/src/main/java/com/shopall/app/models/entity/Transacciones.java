@@ -46,6 +46,6 @@ public class Transacciones implements Serializable{
     
     @ManyToOne
     @JoinColumn(name = "idComprador", referencedColumnName = "idUsuario")
-    private Usuarios tblUsuariosByIdComprador;
+    private Usuario tblUsuariosByIdComprador;
 
 }

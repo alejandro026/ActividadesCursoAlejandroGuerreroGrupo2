@@ -23,7 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "TBL_Productos")
-public class Productos implements Serializable{
+public class Producto implements Serializable{
 	
 	/**
 	 * 
@@ -33,7 +33,7 @@ public class Productos implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idProducto", nullable = false)
-    private int idProducto;
+    private Integer idProducto;
     
     @Column(name = "Nombre", nullable = true, length = 45)
     private String nombre;
@@ -47,23 +47,14 @@ public class Productos implements Serializable{
     
     
     @Column(name = "Precio", nullable = false, precision = 0)
-    private int precio;
-    
-    @OneToMany(mappedBy = "tblProductosByIdProducto")
-    private List<Inventario> tblInventariosByIdProducto;
-    
-    @OneToMany(mappedBy = "tblProductosByIdProducto")
-    private List<ListaCompras> tblListaComprasByIdProducto;
-    
+    private double precio;
+
     @ManyToOne
     @JoinColumn(name = "idCategoria", referencedColumnName = "idCategoria")
-    private Categoria tblCategoriasByIdCategoria;
+    private Categoria categoria;
     
     @ManyToOne
     @JoinColumn(name = "idVendedor", referencedColumnName = "idVendedor")
-    private TiendaVendedor tblTiendaVendedorByIdVendedor;
-    
-    @OneToMany(mappedBy = "tblProductosByIdProducto")
-    private List<Resenas> tblResenasByIdProducto;
+    private TiendaVendedor tiendaVendedor;
 
 }

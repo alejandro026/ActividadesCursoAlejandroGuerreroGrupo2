@@ -44,11 +44,5 @@ public class TiendaVendedor implements Serializable{
     
     @Column(name = "Correo", nullable = true, length = 45)
     private String correo;
-    
-    @OneToMany(mappedBy = "tblTiendaVendedorByIdVendedor")
-    private List<Inventario> tblInventariosByIdVendedor;
-    
-    @OneToMany(mappedBy = "tblTiendaVendedorByIdVendedor")
-    private List<Productos> tblProductosByIdVendedor;
 
 }

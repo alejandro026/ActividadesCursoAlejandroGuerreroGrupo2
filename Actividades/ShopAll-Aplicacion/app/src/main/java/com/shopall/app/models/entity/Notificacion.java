@@ -42,6 +42,6 @@ public class Notificacion implements Serializable{
     
     @ManyToOne
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
-    private Usuarios tblUsuariosByIdUsuario;
+    private Usuario tblUsuariosByIdUsuario;
 
 }

@@ -67,12 +67,20 @@ public class ProductosServiceTest {
         productoDTO.setNombre("Smartphone XYZ");
         productoDTO.setPrecio(999.99);
         productoDTO.setIdCategoria(categoria.getIdCategoria());
+        productoDTO.getDescripcion();
+        productoDTO.getNombre();
+        productoDTO.getPrecio();
+        productoDTO.getIdCategoria();
 
         producto = new Producto();
         producto.setDescripcion(productoDTO.getDescripcion());
         producto.setNombre(productoDTO.getNombre());
         producto.setPrecio(productoDTO.getPrecio());
         producto.setCategoria(categoria);
+        producto.getDescripcion();
+        producto.getNombre();
+        producto.getPrecio();
+        producto.getCategoria();
         
         tiendaVendedor2= new TiendaVendedor();
         productoAddInventario = new ProductoAddInventario();

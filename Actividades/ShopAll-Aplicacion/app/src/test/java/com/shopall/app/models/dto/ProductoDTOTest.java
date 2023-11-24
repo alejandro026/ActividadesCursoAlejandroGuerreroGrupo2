@@ -49,6 +49,19 @@ public class ProductoDTOTest {
         productoDTO.setIdCategoria(1);
         assertEquals(1, productoDTO.getIdCategoria());
     }
+    
+    @Test
+    public void testGetSetIdVendedor() {
+//        assertEquals(0, productoDTO.getIdCategoria());
+        productoDTO.setIdVendedor(1);
+        assertEquals(1, productoDTO.getIdVendedor());
+    }
 
+    @Test
+    public void testGetSetIdDetalleProducto() {
+    	assertNull(productoDTO.getDetallesProducto());
+        productoDTO.setDetallesProducto("Nuevo");
+        assertEquals("Nuevo", productoDTO.getDetallesProducto());
+    }
 
 }

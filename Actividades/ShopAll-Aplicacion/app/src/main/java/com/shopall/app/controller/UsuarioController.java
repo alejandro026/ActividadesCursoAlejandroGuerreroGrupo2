@@ -26,7 +26,7 @@ public class UsuarioController {
      * @return ResponseEntity con una lista de usuarios en el cuerpo de la respuesta.
      */
     @GetMapping(path = "/getUsuarios", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Response<UsuarioDTO>> findAllPost(){
+    public ResponseEntity<Response<UsuarioDTO>> findAllUsers(){
         Response<UsuarioDTO> response = usuarioService.getUsuarios();
 
         // Retorna una respuesta con la lista de usuarios y el estado HTTP OK (200)
